@@ -1,20 +1,30 @@
-var fixedrect,movingrect  
+const Engine = Matter.Engine;
+const World= Matter.World;
+const Bodies = Matter.Bodies;
 
-function setup() {
-  createCanvas(800,400);
- fixedrect = createSprite(400, 200, 50, 50);
- movingrect = createSprite(200,200,20,20);
- car = createSprite(10,300,80,30);
- car.velocityX = 1;
- bus = createSprite(300,300,80,30);
- bus.velocityX =-1;
+var engine, world;
+var ground;
+
+function setup(){
+    var canvas = createCanvas(400,400);
+    engine = Engine.create();
+    world = engine.world;
+
+    var ground_options ={
+        isStatic: true
+    }
+
+    ground = Bodies.rectangle(200,390,200,20,ground_options);
+    World.add(world,ground);
+    ball = Bodies.circle(200,200,30,{restitution:1})
+World.add(world,ball);
+    console.log(ground);
 }
 
-function draw() {
-  background(255,255,255);  
-  movingrect.x = mouseX
-  movingrect.y = mouseY
- isTouching(car,bus)
- bounceOff(car,bus)
-  drawSprites();
+function draw(){
+    background(0);
+    Engine.update(engine);
+    rectMode(CENTER);
+    rect(ground.position.x,ground.position.y,400,20);
+    circle(ball.position.x,ball.position.y,50);
 }
